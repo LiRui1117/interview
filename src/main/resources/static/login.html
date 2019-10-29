@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>登录</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="plugins/bootstrap/css/font-awesome.min.css">
+    <link rel="stylesheet" href="plugins/bootstrap/css/ionicons.min.css">
+    <link rel="stylesheet" href="plugins/adminLTE/css/AdminLTE.css">
+    <link rel="stylesheet" href="plugins/bootstrap/css/blue.css">
+
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            var search = window.location.href;
+            if (search != null) {
+                var message = search.split("=")[1];
+                if (message == "false") {
+                    $("#error").text("用户名或密码错误，请重新输入！");
+                }
+            }
+        })
+    </script>
+</head>
+
+<body class="hold-transition login-page"
+      style="background-image: url('https://gw.alipayobjects.com/zos/rmsportal/TVYTbAXWheQpRcWDaDMu.svg');">
+<div class="container">
+    <div class="login-box">
+        <div class="login-logo">
+            <b>面试系统</b>
+        </div>
+        <form action="/login.html" method="post">
+            <div id="error" style=" color:red;text-align: center;margin-top: 50px "></div>
+            <div class="form-group has-feedback" style="margin-top: 20px">
+                <span class="glyphicon glyphicon glyphicon-user form-control-feedback" style="margin-top: 3px"></span>
+                <input type="text" class="form-control" name="username" style="border-radius: 5px;height: 40px;"
+                       placeholder="用户名/邮箱">
+            </div>
+
+            <div class="form-group has-feedback" style="margin-top: 30px">
+                <span class="glyphicon glyphicon-lock form-control-feedback" style="margin-top: 3px"></span>
+                <input type="password" class="form-control" name="password" style="border-radius: 5px;height: 40px;"
+                       placeholder="密码">
+            </div>
+            <div class="row" style="margin-top: 20px">
+                <!--<div class="col-xs-4">
+                    <a href="#">忘记密码</a><br>
+                </div>-->
+
+                <div class="col-xs-12" style="text-align: right">
+                    <a href="register.html" class="text-center">注册</a>
+                </div>
+            </div>
+            <p></p>
+            <div class="form-group has-feedback" style="margin-top: 15px">
+                <input type="submit" value="登录" class="btn btn-primary form-control">
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

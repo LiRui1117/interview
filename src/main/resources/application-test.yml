@@ -1,0 +1,15 @@
+server:
+  port: 8080
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://rm-bp16885t0yn5g56gybo.mysql.rds.aliyuncs.com:3306/interview?useUnicode=true&characterEncoding=utf8&useSSL=false
+    username: root
+    password: Deeptest2018
+  thymeleaf:
+    cache: false
+  jpa:
+    show-sql: true
+
+mybatis:
+  type-aliases-package: com.deepexi.interview_system

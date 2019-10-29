@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deepexi.interview_system.dao.InterviewDao">
+    <resultMap id="interviewMap" type="com.deepexi.interview_system.model.Interviewee">
+        <id column="id" property="id"></id>
+        <result column="name" property="name"></result>
+        <result column="interviewpost" property="interviewpost"></result>
+        <result column="examscore" property="examscore"></result>
+        <result column="interviewer" property="interviewer"></result>
+        <result column="result" property="result"></result>
+        <collection property="companyList"  ofType="list"  column="id"   select="findCompanyById"></collection>
+     </resultMap>
+
+    <select id="findAll" resultMap="interviewMap" parameterType="requestParam">
+        SELECT *
+        from applicant
+        <where>
+            <if test="company != null and company !=''">
+                id in (
+                select applicant_id from applicant_company where company_id in (
+                select id from company where company like '%${company}%')
+                )
+            </if>
+            <if test="name != null and name != ''">
+               and name like '%${name}%'
+            </if>
+            <if test="interviewpost != null and interviewpost != ''">
+                and interviewpost like '%${interviewpost}%'
+            </if>
+            <if test="interviewer != null and interviewer != ''">
+                and interviewer like '%${interviewer}%'
+            </if>
+        </where>
+
+    </select>
+
+    <select id="findCompanyById" parameterType="integer" resultType="com.deepexi.interview_system.model.Company" >
+        select t1.* from company t1 , applicant_company t2 where t1.id = t2.company_id and t2.applicant_id = #{id}
+
+    </select>
+
+
+    <select id="findCompanyByName" parameterType="String" resultType="com.deepexi.interview_system.model.Company">
+        select
+            *
+        from
+            company
+        where
+            company = #{company}
+    </select>
+
+    <insert id="insertCompany" parameterType="Company"  useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into company (company) values (#{company})
+    </insert>
+
+    <insert id="insertApplicant" parameterType="com.deepexi.interview_system.model.Interviewee"  useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert  into
+            applicant(id,name,interviewpost,examscore,interviewer,result)
+        values
+        (#{id},#{name},#{interviewpost},#{examscore},#{interviewer},#{result})
+    </insert>
+
+    <insert id="insertConnection" parameterType="com.deepexi.interview_system.model.Connection">
+        insert into
+            applicant_company(applicant_id,company_id)
+        values
+            (#{applicantId},#{companyId})
+    </insert>
+
+    <select id="findIntervieweeById" parameterType="int" resultMap="interviewMap">
+       select * from applicant where id = #{id}
+    </select>
+    <select id="findInterviewer" resultType="java.lang.String">
+        select distinct (interviewer) from applicant
+    </select>
+    <select id="findInterviewpost" resultType="java.lang.String">
+        select distinct (interviewpost) from applicant
+    </select>
+    <select id="findConnectionByCompanyId" parameterType="integer" resultType="java.lang.Integer">
+        select applicant_id from applicant_company where company_id = #{id}
+    </select>
+
+
+    <delete id="deleteCompany" parameterType="int">
+        delete from company where id=#{companyId}
+    </delete>
+
+    <delete id="deleteApplicant" parameterType="int">
+        delete from applicant where id=#{aid}
+    </delete>
+
+    <delete id="deleteMiddleTable" parameterType="int">
+        delete from applicant_company where applicant_id=#{aid}
+    </delete>
+
+
+</mapper>

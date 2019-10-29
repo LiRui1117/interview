@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deepexi.interview_system.dao.CompanyDao">
+
+    <resultMap id="companyMap" type="com.deepexi.interview_system.model.Company">
+        <id column="id" property="id"></id>
+        <result column="company" property="company"></result>
+        <result column="num" property="count"></result>
+        <collection property="intervieweeNameList" column="id" select="findByCompanyId"></collection>
+    </resultMap>
+    <select id="findAll" resultMap="companyMap" parameterType="RequestParam">
+        select t1.id ,t1.company company,count(*) num
+        from company t1 , applicant_company t2 , applicant t3
+        where t1.id = t2.company_id and t2.applicant_id = t3.id
+        <if test="name != '' and name != null">
+            and t1.company like '%${name}%'
+        </if>
+        GROUP BY t1.company order by num desc
+    </select>
+    <select id="findByCompanyId" resultType="java.lang.String" parameterType="integer">
+        select t1.name
+        from applicant t1, applicant_company t2
+        where t1.id = t2.applicant_id and t2.company_id = #{id}
+    </select>
+</mapper>
